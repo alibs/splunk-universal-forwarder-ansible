@@ -1,0 +1,18 @@
+--- 
+
+- name: install and configure Splunk UF
+  hosts: all
+
+  tasks:
+  - name: install splunk universal forwarder 
+    chocolatey.chocolatey.win_chocolatey: 
+      name: splunk-universalforwarder
+      state: present
+      install_args: '"SPLUNK_APP=SplunkForwarder DEPLOYMENT_SERVER=<splunkdeploymentserver>:8089 FORWARD_SERVER=<splunkreceivingindexer>:9997 AGREETOLICENSE=yes /quiet"'
+
+
+  - name: restart splunk
+    win_service:
+      name: SplunkForwarder
+      state: restarted
+
